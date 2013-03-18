@@ -1,0 +1,3 @@
+<% _.each(pics, function(pic) { %>
+<a href="http://www.flickr.com/photos/<%= pic.owner %>/<%= pic.id %>" target="blank"><img src="http://farm<%= pic.farm %>.static.flickr.com/<%= pic.server %>/<%= pic.id %>_<%= pic.secret %>_z.jpg" width="435" alt="<%= pic.title %>" title="<%= pic.title %>" /></a><br />
+<% }); %>

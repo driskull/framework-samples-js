@@ -1,0 +1,128 @@
+html, body {
+  height: 100%; width: 100%; margin: 0;
+}
+body{
+  overflow:hidden;
+  font-family: "Lucida Grande","Seoge UI","Arial",sans-serif;
+}
+a img {
+  border: 0;
+}
+#main-window {
+  visibility: hidden;
+}
+#map {
+  background-color:white;
+  border: 0;
+  height: 100%;
+  position: relative;
+}
+
+.over-map {
+  background-color: #fff;
+  padding: 5px;
+  text-align: center;
+  position: absolute;
+  z-index: 30;
+}
+
+#basemaps-container {
+  font-size: 1em;
+  height: 1.2em;
+  right: 20px;
+  top: 20px;
+}
+#photo-list-info {
+  text-align: center;
+}
+.round {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px; 
+}
+.basemap {
+  border: none;
+  background-color: #fff;
+  color: #063;
+  cursor: pointer;
+  display: inline-block;
+  height: 1em;
+  padding: 0 5px 0 5px;
+  text-align: center;
+}
+.info {
+  width: 100%;
+  background-color: #fff;
+  color: #063;
+  z-index: 40;
+  font-size: 1em;
+  margin: 0 0 10px 0;
+}
+#app-info-container {
+  text-align: left;
+  line-height: 1.5em;
+}
+#app-info {
+  padding: 5px;
+}
+#app-info a {
+  text-decoration: none;
+  border-bottom: 1px solid #063;
+  color: #063;
+}
+#app-info a:hover {
+  text-decoration: none;
+  border-bottom: 0;
+}
+#title {
+  font-size: 1.4em;
+}
+#load-more {
+  background-color: #eee;
+  cursor: pointer;
+  padding: 5px 0 5px 0;
+}
+#title, #load-more {
+  text-align: center;
+}
+#photo-list img {
+  padding: 0 0 5px 0;
+}
+
+/* drop shadow styles */
+.ds { background: #000; overflow: hidden; position: absolute; right: 0px; z-index: 2; }
+#ds-r div { height: 100%; }
+#ds .o1 { filter: alpha(opacity=10); opacity: .1; }
+#ds .o2 { filter: alpha(opacity=8); opacity: .08; }
+#ds .o3 { filter: alpha(opacity=6); opacity: .06; }
+#ds .o4 { filter: alpha(opacity=4); opacity: .04; }
+#ds .o5 { filter: alpha(opacity=2); opacity: .02; }
+#ds .v1 { width: 1px; }
+#ds .v2 { width: 2px; }
+#ds .v3 { width: 3px; }
+#ds .v4 { width: 4px; }
+#ds .v5 { width: 5px; }
+
+/* use the same green in the popup */
+.esriPopupWrapper .titlePane {
+  background-color: #063;
+}
+.esriPopupWrapper .contentPane {
+  color: #063;
+} 
+/* customize the map's zoom slider */
+.esriSimpleSliderVertical, .shadow {
+  -webkit-box-shadow: 0 6px 6px -6px #999;
+  -moz-box-shadow: 0 6px 6px -6px #999;
+  box-shadow: 0 6px 6px -6px #999;
+  border: none;
+}
+.esriSimpleSliderVertical .esriSimpleSliderIncrementButton {
+  border-bottom: none;
+}
+.esriSimpleSlider {
+  background-color: #fff;
+  color: #063;
+}
+
