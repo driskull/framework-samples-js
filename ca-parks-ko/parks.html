@@ -29,7 +29,7 @@
     };
     </script>
     <script src="http://servicesbeta.esri.com/jsapi/arcgis/3.4/"></script>
-    <script src="js/np_app.js"></script>
+    <script src="js/app/np_app.js"></script>
 
   </head>
   <body class="tundra">
@@ -48,13 +48,24 @@
         </div>
 
         <div id="photo-list"></div>
-        <div class="info shadow round" id="load-more"></div>
+        <div class="info shadow round" data-bind="click: show_more" id="load-more"></div>
         <div class="info" id="app-info-container">
           <div id="app-info">
 
-            <div id="photo-list-info">
-              Click on a point on the map to load photos of that park from Flickr.
+              <div data-bind="template: { name: 'pics-template', foreach: pics }"></div>
+
+                <script type="text/html" id="pics-template">
+                    <h3 data-bind="text: id"></h3>
+                    <p>Credits: <span data-bind="text: farm"></span></p>
+                </script>
+
+            <div id="photo-list-info" data-bind="html: photoList">
+
+
+
             </div>
+
+
             <br>
             This app uses the Flickr API to find photos. Photo searches are limited to 30 results to comply with <a href="http://www.flickr.com/services/api/tos/">Flickr's terms of service</a>.
             <br><br>
