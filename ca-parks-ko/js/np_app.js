@@ -8,7 +8,7 @@ require([
   "dojo/has",
   "dojo/parser",
   "dojo/dom-style",
-  
+
   "esri/map",
 
   "esri/geometry/Point",
@@ -24,14 +24,20 @@ require([
   "esri/layers/GraphicsLayer",
 
   "dijit/layout/BorderContainer",
-  "dijit/layout/ContentPane"
+  "dijit/layout/ContentPane",
+  "dojo/domReady!"
 ], function (
   connect, array, color, dom, has, parser, domStyle,
-  Map, 
+  Map,
   Point, webMercatorUtils, domUtils, esriRequest,
   sms, sls, UniqueValueRenderer, Graphic, InfoTemplate, GraphicsLayer
 ) {
-  parser.parse();
+
+    require(["lib/knockout-2.2.1",], function(ko){
+        console.log(ko);
+        ko.applyBindings();
+    });
+
 
   // prevent flash of unstyled content(FOUC)
   domStyle.set(dom.byId("main-window"), "visibility", "visible");
@@ -52,7 +58,7 @@ require([
     connect.connect(dom.byId("load-more"), "onclick", show_more);
     domUtils.hide(dom.byId("load-more"));
   });
-  
+
   // event delegation to switch basemaps
   var bmc = dom.byId("basemaps-container");
   connect.connect(bmc, "onclick", function(e) {
@@ -64,13 +70,13 @@ require([
 
   function showParks(parkData) {
     //console.log("parks: ", response);
-    
+
     var template = new InfoTemplate(
-      "${Name} ${Type}", 
+      "${Name} ${Type}",
       "Total Acreage: ${Total} <br> " +
-      "Federal Acreage: ${Federal} <br> " + 
+      "Federal Acreage: ${Federal} <br> " +
       "Non-Federal Acreage: ${Non-Federal} <br> " +
-      "Wilderness Acreage: ${Wilderness} <br> " + 
+      "Wilderness Acreage: ${Wilderness} <br> " +
       "Type: ${Type}"
     );
 
@@ -82,9 +88,9 @@ require([
     renderer.addValue("National Historic Site", new sms("square", 10, null, new color([0, 128, 0, 0.75])));
     renderer.addValue("National Historic Park", new sms("square", 10, null, new color([0, 100, 0, 0.75])));
 
-    var parksGraphicsLayer = new GraphicsLayer({ 
-      "id": "parks_graphics", 
-      "displayOnPan": !has("ie") 
+    var parksGraphicsLayer = new GraphicsLayer({
+      "id": "parks_graphics",
+      "displayOnPan": !has("ie")
     });
     parksGraphicsLayer.setRenderer(renderer);
     globals.map.addLayer(parksGraphicsLayer);
@@ -142,7 +148,7 @@ require([
     var photoMarkup = [];
     array.forEach(pics, function(pic) {
       var picUrl = "http://farm" + pic.farm + ".static.flickr.com/" + pic.server + "/" + pic.id + "_" + pic.secret + "_z.jpg";
-      var flickrUrl = "http://www.flickr.com/photos/" + pic.owner + "/" + pic.id; 
+      var flickrUrl = "http://www.flickr.com/photos/" + pic.owner + "/" + pic.id;
       photoMarkup.push("<a href=\"" + flickrUrl + "\" target=\"blank\"><img src=\"" + picUrl + "\" width=\"435\" alt=\"" + pic.title + "\" title=\"" + pic.title + "\" /></a>");
     });
     dom.byId("photo-list-info").innerHTML = "Found " + globals.currentPics.length + " photos searching for " + globals.currentSearch + ". Showing " + globals.currentPicCount + ".<br><br>";
@@ -160,7 +166,7 @@ require([
     showPhotos(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount ));
   }
 
-  function errorHandler(error) { 
-    console.log("error: ", error); 
+  function errorHandler(error) {
+    console.log("error: ", error);
   }
 });

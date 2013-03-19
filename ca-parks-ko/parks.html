@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10,20 +10,37 @@
     <link rel="stylesheet" href="http://servicesbeta.esri.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
     <link rel="stylesheet" href="css/np_style.css">
 
-    <!--script>var dojoConfig = { parseOnLoad: true };</script-->
+    <script>
+    // host path regular expression
+    var pathRegex = new RegExp(/\/[^\/]+$/);
+    var locationPath = location.pathname.replace(pathRegex, '');
+    // Dojo Config
+    var dojoConfig = {
+        parseOnLoad: true,
+        packages: [
+        {
+            name: "lib",
+            location: locationPath + '/js/lib/'
+        },
+        {
+            name: "tpl",
+            location: locationPath + '/tpl/'
+        }]
+    };
+    </script>
     <script src="http://servicesbeta.esri.com/jsapi/arcgis/3.4/"></script>
     <script src="js/np_app.js"></script>
 
   </head>
   <body class="tundra">
-    <div id="main-window" 
-         data-dojo-type="dijit/layout/BorderContainer" 
-         data-dojo-props="design:'headline', gutters:false" 
-         style="width:100%; height:100%; margin: 0 auto;" 
+    <div id="main-window"
+         data-dojo-type="dijit/layout/BorderContainer"
+         data-dojo-props="design:'headline', gutters:false"
+         style="width:100%; height:100%; margin: 0 auto;"
          class="shadow">
 
-      <div data-dojo-type="dijit/layout/ContentPane" 
-           data-dojo-props="region:'right', splitter:false" 
+      <div data-dojo-type="dijit/layout/ContentPane"
+           data-dojo-props="region:'right', splitter:false"
            style="width:450px;margin:0px;padding:20px 10px 10px 10px;background-color:#fff;">
 
         <div class="info shadow" id="title">
@@ -34,25 +51,25 @@
         <div class="info shadow round" id="load-more"></div>
         <div class="info" id="app-info-container">
           <div id="app-info">
-            
+
             <div id="photo-list-info">
               Click on a point on the map to load photos of that park from Flickr.
             </div>
             <br>
             This app uses the Flickr API to find photos. Photo searches are limited to 30 results to comply with <a href="http://www.flickr.com/services/api/tos/">Flickr's terms of service</a>.
             <br><br>
-            National Park data is from the 
+            National Park data is from the
             <a href="http://www.dof.ca.gov/HTML/FS_DATA/STAT-ABS/Toc_xls.htm">
               California Statistical Abstract
-            </a>. Specifically, 
+            </a>. Specifically,
             <a href="http://www.dof.ca.gov/HTML/FS_DATA/STAT-ABS/documents/A3.xls">
               table A-3
             </a>.
             <br /><br />
-            Maps are from 
+            Maps are from
             <a href="http://arcgis.com/">
               arcgis.com
-            </a> and are displayed with 
+            </a> and are displayed with
             <a href="http://esriurl.com/js">
               Esri's ArcGIS API for JavaScript
             </a>.
@@ -63,8 +80,8 @@
 
       <div id="legend"></div>
 
-      <div id="map" 
-           data-dojo-type="dijit/layout/ContentPane" 
+      <div id="map"
+           data-dojo-type="dijit/layout/ContentPane"
            data-dojo-props="region:'center'">
 
         <div id="basemaps-container" class="shadow round over-map">
