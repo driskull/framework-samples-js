@@ -1,0 +1,8 @@
+initial caps for classes in backbone
+
+views have events and templates
+
+models have data crunching and app logic
+
+collections contain data
+

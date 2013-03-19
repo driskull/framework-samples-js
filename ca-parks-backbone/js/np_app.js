@@ -4,6 +4,7 @@ require([
   "dojo/_base/connect",
   "dojo/_base/array",
   "dojo/_base/Color",
+  "dojo/_base/lang",
   "dojo/dom",
   "dojo/has",
   "dojo/parser",
@@ -11,6 +12,7 @@ require([
 
   "dojo/text!tpl/pics.html",
   "dojo/text!tpl/photoInfo.html",
+  "dojo/text!tpl/basemaps.html",
 
   "esri/map",
 
@@ -31,8 +33,8 @@ require([
 
   "dojo/ready"
 ], function (
-  connect, array, color, dom, has, parser, domStyle,
-  picsTpl, photoInfoTpl,
+  connect, array, color, lang, dom, has, parser, domStyle,
+  picsTpl, photoInfoTpl, basemapsTpl,
   Map,
   Point, webMercatorUtils, domUtils, esriRequest,
   sms, sls, UniqueValueRenderer, Graphic, InfoTemplate, GraphicsLayer,
@@ -42,27 +44,113 @@ require([
     ready(function() {
          $(document).ready(function() {
 
-
-
-             var npPhotos = Backbone.Model.extend({
-                 show: function(pics) {
+            
+            var FlickrPhotos = Backbone.View.extend({
+                show: function(pics) {
                      domUtils.show(dom.byId("load-more"));
+                     
+                     // template for each photo
                      var compiledPics = _.template(picsTpl, {
                          pics: pics
                      });
+                     
+                     // template for results info
                      var compiledInfo = _.template(photoInfoTpl, {
                          total: globals.currentPics.length,
                          count: globals.currentPicCount,
                          search: globals.currentSearch
                      });
+                     
+                     // place html
                      dom.byId("photo-list-info").innerHTML = compiledInfo;
                      dom.byId("photo-list").innerHTML += compiledPics;
+                     
+                     // dom manipulation
                      if (globals.currentPicIndex + 3 < globals.currentPics.length) {
                          dom.byId("load-more").innerHTML = "Load More";
                      } else {
                          domUtils.hide(dom.byId("load-more"));
                      }
                  },
+                 show_more: function() {
+                     globals.currentPicIndex += 3;
+                     globals.currentPicCount += 3;
+                     this.show(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount));
+                 },
+                 events: {
+                     "click": "show_more"
+                 },
+                 initialize: function() {
+                     this.render();
+                 },
+                 render: function() {
+                     var template = _.template('Load More', {});
+                     this.$el.html(template);
+                 }
+             });
+             var myFlickrPhotos = new FlickrPhotos({
+                 el: $("#load-more")
+             });
+             
+             
+
+             var AppError = Backbone.Model.extend({
+                 errorHandler: function(error) {
+                     console.log("error: ", error);
+                 }
+             });
+             var myErrorHandler = new AppError;
+             
+             
+
+             var QueryFlickr = Backbone.Model.extend({
+                flickrResults: function(response) {
+                     //console.log("flickr stuff! ", response);
+                     globals.currentPics = response.photos.photo; // array of objects with photo info
+                     if (globals.currentPics.length > 0) {
+                         globals.currentPicIndex = 0;
+                         globals.currentPicCount = 3;
+                         domStyle.set(dom.byId("load-more"), "display", "block");
+                         dom.byId("photo-list-info").innerHTML = "Found " + globals.currentPics.length + " photos searching for " + globals.currentSearch + ". Showing " + globals.currentPicCount + ".<br><br>";
+                         myFlickrPhotos.show(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount));
+                     } else {
+                         domStyle.set(dom.byId("load-more"), "display", "none");
+                         dom.byId("photo-list-info").innerHTML = "Didn\'t find any photos searching for " + globals.currentSearch + ". Please click another point."
+                     }
+                 },
+                 searchFlickr: function(evt) {
+                    var _self = this;
+                     //console.log("search flickr: ", evt.graphic.attributes.Name);
+                     var attrs = evt.graphic.attributes;
+                     globals.currentSearch = attrs.Name + " " + attrs.Type;
+                     dom.byId("photo-list-info").innerHTML = "Searching flickr for " + globals.currentSearch + " photos.";
+                     dom.byId("photo-list").innerHTML = "";
+                     // example search url
+                     // http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=8af7013c3eb758525e4a4d8597cc14ff&tags=lassen&text=lassen+national+park&format=json
+                     // callback parameter name is "jsoncallback"
+                     esriRequest({
+                         url: "http://api.flickr.com/services/rest/",
+                         content: {
+                             method: "flickr.photos.search",
+                             api_key: "3fb6f3bed34f310b5d80e6c3fdca1865",
+                             tags: attrs.Name,
+                             text: attrs.Name + " " + attrs.Type,
+                             per_page: "30",
+                             format: "json"
+                         },
+                         callbackParamName: "jsoncallback"
+                     }).then(function(resp){
+                        _self.flickrResults(resp);
+                     }, myErrorHandler.errorHandler);
+                 }
+             });
+             var myFlickrQuery = new QueryFlickr;
+             
+             
+             
+             
+             
+             var NationalParks = Backbone.Model.extend({
                  showParks: function(parkData) {
                      var template = new InfoTemplate("${Name} ${Type}", "Total Acreage: ${Total} <br> " + "Federal Acreage: ${Federal} <br> " + "Non-Federal Acreage: ${Non-Federal} <br> " + "Wilderness Acreage: ${Wilderness} <br> " + "Type: ${Type}");
                      var renderer = new UniqueValueRenderer(null, "Type");
@@ -78,8 +166,10 @@ require([
                      });
                      parksGraphicsLayer.setRenderer(renderer);
                      globals.map.addLayer(parksGraphicsLayer);
-                     connect.connect(parksGraphicsLayer, "onClick", searchFlickr);
-                     array.forEach(parkData, function(park) {
+                     connect.connect(parksGraphicsLayer, "onClick", function(evt){
+                        myFlickrQuery.searchFlickr(evt);
+                     });
+                     _.each(parkData, function(park) {
                          if (park.Location) {
                              var parkGeom = new Point(park.Location[1], park.Location[0]);
                              var parkGraphic = new Graphic(parkGeom, null, park, template);
@@ -87,100 +177,63 @@ require([
                          }
                      });
                  },
-                 errorHandler: function(error) {
-                     console.log("error: ", error);
+                 init: function(){
+                    // prevent flash of unstyled content(FOUC)
+                     domStyle.set(dom.byId("main-window"), "visibility", "visible");
+                     
+                     // create map
+                     globals.map = new Map("map", {
+                         basemap: "streets",
+                         center: [-119.036, 36.621],
+                         zoom: 6,
+                         logo: false,
+                         showAttribution: false
+                     });
+                     
+                     // handle resize of the browser and get natl park data
+                     connect.connect(globals.map, "onLoad", function() {
+                         esriRequest({
+                             url: "data/natl-parks-all.json"
+                         }).then(myNationalParks.showParks, myErrorHandler.errorHandler);
+                         //connect.connect(dom.byId("load-more"), "onclick", show_more);
+                         domUtils.hide(dom.byId("load-more"));
+                     });
                  }
              });
-             var npPhotosApp = new npPhotos;
-             var LoadMore = Backbone.View.extend({
-                 tagName: "div",
-                 className: "info shadow round",
-                 show_more: function() {
-                     globals.currentPicIndex += 3;
-                     globals.currentPicCount += 3;
-                     npPhotosApp.show(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount));
+             var myNationalParks = new NationalParks;
+             
+             
+             
+             var switchBasemap = Backbone.View.extend({
+                 switchBM: function(e) {
+                     // only set the basemap if something different was clicked
+                     if (e.target.id !== globals.map.getBasemap()) {
+                         globals.map.setBasemap(e.target.id);
+                     }
                  },
                  events: {
-                     "click": "show_more"
+                     "click .basemap": "switchBM"
                  },
                  initialize: function() {
                      this.render();
                  },
                  render: function() {
-                     var template = _.template('Load More', {});
+                     var template = _.template(basemapsTpl, {});
                      this.$el.html(template);
                  }
              });
-             var load_more = new LoadMore({
-                 el: $("#load-more")
+             var switch_basemap = new switchBasemap({
+                 el: $("#basemaps-container")
              });
-             // prevent flash of unstyled content(FOUC)
-             domStyle.set(dom.byId("main-window"), "visibility", "visible");
-             globals.map = new Map("map", {
-                 basemap: "streets",
-                 center: [-119.036, 36.621],
-                 zoom: 6,
-                 logo: false,
-                 showAttribution: false
-             });
-             // handle resize of the browser and get natl park data
-             connect.connect(globals.map, "onLoad", function() {
-                 esriRequest({
-                     url: "data/natl-parks-all.json"
-                 }).then(npPhotosApp.showParks, npPhotosApp.errorHandler);
-                 //connect.connect(dom.byId("load-more"), "onclick", show_more);
-                 domUtils.hide(dom.byId("load-more"));
-             });
-             // event delegation to switch basemaps
-             var bmc = dom.byId("basemaps-container");
-             connect.connect(bmc, "onclick", function(e) {
-                 // only set the basemap if something different was clicked
-                 if (e.target.id !== globals.map.getBasemap()) {
-                     globals.map.setBasemap(e.target.id);
-                 }
-             });
-
-             function searchFlickr(evt) {
-                 //console.log("search flickr: ", evt.graphic.attributes.Name);
-                 var attrs = evt.graphic.attributes;
-                 globals.currentSearch = attrs.Name + " " + attrs.Type;
-                 dom.byId("photo-list-info").innerHTML = "Searching flickr for " + globals.currentSearch + " photos.";
-                 dom.byId("photo-list").innerHTML = "";
-                 // example search url
-                 // http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=8af7013c3eb758525e4a4d8597cc14ff&tags=lassen&text=lassen+national+park&format=json
-                 // callback parameter name is "jsoncallback"
-                 esriRequest({
-                     url: "http://api.flickr.com/services/rest/",
-                     content: {
-                         method: "flickr.photos.search",
-                         api_key: "3fb6f3bed34f310b5d80e6c3fdca1865",
-                         tags: attrs.Name,
-                         text: attrs.Name + " " + attrs.Type,
-                         per_page: "30",
-                         format: "json"
-                     },
-                     callbackParamName: "jsoncallback"
-                 }).then(flickrResults, npPhotosApp.errorHandler);
-             }
-
-             function flickrResults(response) {
-                 //console.log("flickr stuff! ", response);
-                 globals.currentPics = response.photos.photo; // array of objects with photo info
-                 if (globals.currentPics.length > 0) {
-                     globals.currentPicIndex = 0;
-                     globals.currentPicCount = 3;
-                     domStyle.set(dom.byId("load-more"), "display", "block");
-                     dom.byId("photo-list-info").innerHTML = "Found " + globals.currentPics.length + " photos searching for " + globals.currentSearch + ". Showing " + globals.currentPicCount + ".<br><br>";
-                     npPhotosApp.show(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount));
-                 } else {
-                     domStyle.set(dom.byId("load-more"), "display", "none");
-                     dom.byId("photo-list-info").innerHTML = "Didn\'t find any photos searching for " + globals.currentSearch + ". Please click another point."
-                 }
-             }
-
-
-
-
+             
+             
+            // startup map and app
+            myNationalParks.init();
+             
+             
+             
+             
+             
         });
     });
 });
