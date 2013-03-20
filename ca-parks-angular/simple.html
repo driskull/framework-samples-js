@@ -1,0 +1,27 @@
+<!DOCTYPE html> 
+<html ng-app="CaParks">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>
+      Explore National Park Service assets in California via Flickr
+    </title>
+
+    <!-- include AngularJS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.5/angular.min.js"></script>
+    <script>
+      var globals = {};
+      globals.caParks = angular.module("CaParks", []);
+      console.log("created angular module");
+
+      globals.caParks.controller("PhotoCtrl", function($scope) {
+        $scope.addPhotos = function() {
+          alert("we'll get more photos now!");
+        }
+      });
+
+    </script>
+  </head>
+  <body ng-controller="PhotoCtrl">
+    <div class="info shadow round" id="load-more" ng-click="addPhotos()">add photos</div>
+  </body>
+  </html>
