@@ -112,7 +112,7 @@ require([
                          globals.currentPicIndex = 0;
                          globals.currentPicCount = 3;
                          domStyle.set(dom.byId("load-more"), "display", "block");
-                         dom.byId("photo-list-info").innerHTML = "Found " + globals.currentPics.length + " photos searching for " + globals.currentSearch + ". Showing " + globals.currentPicCount + ".<br><br>";
+                         //dom.byId("photo-list-info").innerHTML = "Found " + globals.currentPics.length + " photos searching for " + globals.currentSearch + ". Showing " + globals.currentPicCount + ".<br><br>";
                          myFlickrPhotos.show(globals.currentPics.slice(globals.currentPicIndex, globals.currentPicCount));
                      } else {
                          domStyle.set(dom.byId("load-more"), "display", "none");
