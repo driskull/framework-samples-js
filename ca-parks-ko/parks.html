@@ -37,7 +37,7 @@
          data-dojo-type="dijit/layout/BorderContainer"
          data-dojo-props="design:'headline', gutters:false"
          style="width:100%; height:100%; margin: 0 auto;"
-         class="shadow">
+         class="shadow" >
 
       <div data-dojo-type="dijit/layout/ContentPane"
            data-dojo-props="region:'right', splitter:false"
@@ -47,23 +47,35 @@
           Explore National Park Service assets in California via Flickr
         </div>
 
-        <div id="photo-list"></div>
-        <div class="info shadow round" data-bind="click: show_more" id="load-more"></div>
+        <div id="photo-list">
+
+
+
+
+
+            <div data-bind="foreach: pics">
+                <a data-bind="attr: { href: 'http://www.flickr.com/photos/' + owner + '/' + id, title: title }" target="blank">
+                    <img data-bind="attr: { src: 'http://farm' + farm  + '.static.flickr.com/' + server + '/' + id + '_' + secret + '_z.jpg', title: title, alt: title }" width="435" />
+                </a>
+            </div>
+
+
+
+
+
+
+        </div>
+        <div class="info shadow round" data-bind="click: show_more, visible: showMoreVisible" id="load-more">Load More</div>
         <div class="info" id="app-info-container">
           <div id="app-info">
 
-              <div data-bind="template: { name: 'pics-template', foreach: pics }"></div>
-
-                <script type="text/html" id="pics-template">
-                    <h3 data-bind="text: id"></h3>
-                    <p>Credits: <span data-bind="text: farm"></span></p>
-                </script>
-
-            <div id="photo-list-info" data-bind="html: photoList">
 
 
 
-            </div>
+            <div id="photo-list-info" data-bind="html: photoList"></div>
+
+
+
 
 
             <br>
@@ -95,7 +107,7 @@
            data-dojo-type="dijit/layout/ContentPane"
            data-dojo-props="region:'center'">
 
-        <div id="basemaps-container" class="shadow round over-map">
+        <div id="basemaps-container" class="shadow round over-map" data-bind="click: basemapClick">
           <div class="basemap" id="streets">Streets</div>
           <div class="basemap" id="hybrid">Satellite</div>
           <div class="basemap" id="topo">Topo</div>

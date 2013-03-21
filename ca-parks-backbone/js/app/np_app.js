@@ -95,12 +95,16 @@ require([
 
 
 
+
+
              var AppError = Backbone.Model.extend({
                  errorHandler: function(error) {
                      console.log("error: ", error);
                  }
              });
              var myErrorHandler = new AppError;
+
+
 
 
 
@@ -202,6 +206,8 @@ require([
                  }
              });
              var myNationalParks = new NationalParks;
+
+
 
 
 
