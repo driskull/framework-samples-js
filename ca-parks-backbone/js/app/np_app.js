@@ -37,6 +37,9 @@ require([
 connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, basemapsTpl, Map, Point, webMercatorUtils, domUtils, esriRequest, sms, sls, UniqueValueRenderer, Graphic, InfoTemplate, GraphicsLayer, BorderContainer, ContentPane, ready) {
     ready(function() {
         $(document).ready(function() {
+
+
+
             var FlickrPhotos = Backbone.View.extend({
                 show: function(pics) {
                     domUtils.show(dom.byId("load-more"));
@@ -79,12 +82,28 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
             var myFlickrPhotos = new FlickrPhotos({
                 el: $("#load-more")
             });
+
+
+
+
+
+
+
             var AppError = Backbone.Model.extend({
                 errorHandler: function(error) {
                     console.log("error: ", error);
                 }
             });
             var myErrorHandler = new AppError;
+
+
+
+
+
+
+
+
+
             var QueryFlickr = Backbone.Model.extend({
                 flickrResults: function(response) {
                     //console.log("flickr stuff! ", response);
@@ -127,6 +146,15 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                 }
             });
             var myFlickrQuery = new QueryFlickr;
+
+
+
+
+
+
+
+
+
             var NationalParks = Backbone.Model.extend({
                 showParks: function(parkData) {
                     var template = new InfoTemplate("${Name} ${Type}", "Total Acreage: ${Total} <br> " + "Federal Acreage: ${Federal} <br> " + "Non-Federal Acreage: ${Non-Federal} <br> " + "Wilderness Acreage: ${Wilderness} <br> " + "Type: ${Type}");
@@ -177,6 +205,18 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                 }
             });
             var myNationalParks = new NationalParks;
+
+
+
+
+
+
+
+
+
+
+
+
             var switchBasemap = Backbone.View.extend({
                 switchBM: function(e) {
                     // only set the basemap if something different was clicked
@@ -198,6 +238,16 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
             var switch_basemap = new switchBasemap({
                 el: $("#basemaps-container")
             });
+
+
+
+
+
+
+
+
+
+
             var AppRouter = Backbone.Router.extend({
                 routes: {
                     "park/:query/:query": "viewPark"
@@ -208,10 +258,20 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
             });
             // Initiate the router
             var app_router = new AppRouter;
+
+
+
+
+
             // Start Backbone history a necessary step for bookmarkable URL's
             Backbone.history.start();
             // startup map and app
             myNationalParks.init();
+
+
+
+
+
         });
     });
 });
