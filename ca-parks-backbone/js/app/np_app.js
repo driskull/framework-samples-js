@@ -123,7 +123,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                     }).then(function(resp) {
                         myFlickrQuery.flickrResults(resp);
                     }, myErrorHandler.errorHandler);
-                    app_router.navigate("park/" + name + '/' + type);
+                    app_router.navigate("park/" + encodeURIComponent(name) + '/' + encodeURIComponent(type));
                 }
             });
             var myFlickrQuery = new QueryFlickr;
@@ -203,7 +203,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                     "park/:query/:query": "viewPark"
                 },
                 viewPark: function(name, type) {
-                    myFlickrQuery.searchFlickr(name, type);
+                    myFlickrQuery.searchFlickr(decodeURIComponent(name), decodeURIComponent(type));
                 }
             });
             // Initiate the router
