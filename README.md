@@ -5,7 +5,7 @@ An example app written in different frameworks using the ArcGIS API for JavaScri
 
 [View it live](http://driskull.github.com/framework-samples-js/)
 
-![App](http://driskull.github.com/framework-samples-js/gh-images/app.png)
+![App](https://raw.github.com/driskull/framework-samples-js/master/gh-images/app.png)
 
 ## Instructions
 See the powerpoint in the root directory for more information. These demos were presented at the 2013 Developer Summit in Palm Springs CA.
