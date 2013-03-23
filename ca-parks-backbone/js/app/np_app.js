@@ -128,7 +128,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                     console.log("error: ", error);
                 }
             });
-            var myErrorHandler = new AppError;
+            var myErrorHandler = new AppError();
 
 
 
@@ -193,7 +193,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                     app_router.navigate("park/" + encodeURIComponent(name) + '/' + encodeURIComponent(type));
                 }
             });
-            var myFlickrQuery = new QueryFlickr;
+            var myFlickrQuery = new QueryFlickr();
 
 
 
@@ -250,7 +250,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                     });
                 }
             });
-            var myNationalParks = new NationalParks;
+            var myNationalParks = new NationalParks();
 
 
 
@@ -303,7 +303,7 @@ connect, array, color, lang, dom, has, parser, domStyle, picsTpl, photoInfoTpl, 
                 }
             });
             // Initiate the router
-            var app_router = new AppRouter;
+            var app_router = new AppRouter();
 
 
             
