@@ -78,12 +78,12 @@ a img {
 #title {
   font-size: 1.4em;
 }
-#load-more {
+#load-more .info {
   background-color: #eee;
   cursor: pointer;
   padding: 5px 0 5px 0;
 }
-#title, #load-more {
+#title, #load-more .info {
   text-align: center;
 }
 #photo-list img {
