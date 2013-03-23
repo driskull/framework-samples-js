@@ -1,1 +1,9 @@
+<% if(loading){ %>
+Searching flickr for <%= search %> photos.
+<% } else if(count){ %>
 Found <%= total %> photos searching for <%= search %>. Showing <%= count %>.<br><br>
+<% } else if(!count && search) { %>
+Didn't find any photos searching for <%= search %>. Please click another point.
+<% } else { %>
+Click on a point on the map to load photos of that park from Flickr.
+<% } %>
