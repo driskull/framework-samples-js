@@ -12,7 +12,7 @@ globals.caParks.controller("FlickrCtrl", function($scope, $resource) {
   $scope.currentPicCount = 3;
   $scope.displayedPhotos = [];
   // set up a resource that can be used to retrieve photos
-  $scope.flickr = $resource("http://api.flickr.com/services/rest/", {
+  $scope.flickr = $resource("https://api.flickr.com/services/rest/", {
     // jsoncallback is what the Flickr API expects for a callback name
     // JSON_CALLBACK tells angular to generate a unique name for the callback
     jsoncallback: "JSON_CALLBACK", 

@@ -108,7 +108,7 @@ require([
     // http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=8af7013c3eb758525e4a4d8597cc14ff&tags=lassen&text=lassen+national+park&format=json
     // callback parameter name is "jsoncallback"
     esriRequest({
-      url: "http://api.flickr.com/services/rest/",
+      url: "https://api.flickr.com/services/rest/",
       content: {
         method: "flickr.photos.search",
         api_key: "3fb6f3bed34f310b5d80e6c3fdca1865",

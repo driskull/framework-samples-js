@@ -35,12 +35,11 @@
     
     
     
+    
+    
     <script src="http://servicesbeta.esri.com/jsapi/arcgis/3.4/"></script>
     <script src="js/app/np_app.js"></script>
 
-    
-    
-    
   </head>
   <body class="tundra">
     <div id="main-window"
@@ -56,20 +55,25 @@
         <div class="info shadow" id="title">
           Explore National Park Service assets in California via Flickr
         </div>
-        
-        
-        
-        
 
         <div id="photo-list">
+
+
+
+
+
             <div data-bind="foreach: pics">
                 <a data-bind="attr: { href: 'http://www.flickr.com/photos/' + owner + '/' + id, title: title }" target="blank">
                     <img data-bind="attr: { src: 'http://farm' + farm  + '.static.flickr.com/' + server + '/' + id + '_' + secret + '_z.jpg', title: title, alt: title }" width="435" />
                 </a>
             </div>
+
+
+
+
+
+
         </div>
-        
-        
         
         
         
@@ -113,12 +117,13 @@
           </div>
         </div>
       </div>
+
       <div id="legend"></div>
+
       <div id="map"
            data-dojo-type="dijit/layout/ContentPane"
            data-dojo-props="region:'center'">
 
-           
            
            
            
@@ -132,7 +137,6 @@
         
         
         
-        
         <div id="ds"> <!-- drop shadow divs -->
           <div id="ds-r">
             <div class="ds v1 o1"></div>
@@ -142,6 +146,7 @@
             <div class="ds v5 o5"></div>
           </div>
         </div> <!-- end drop shadow divs -->
+
       </div>
     </div>
   </body>

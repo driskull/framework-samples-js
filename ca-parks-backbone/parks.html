@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="http://servicesbeta.esri.com/jsapi/arcgis/3.4/js/dojo/dijit/themes/tundra/tundra.css">
     <link rel="stylesheet" href="http://servicesbeta.esri.com/jsapi/arcgis/3.4/js/esri/css/esri.css">
     <link rel="stylesheet" href="css/np_style.css">
-    
-    
-    
+
+
+
     <script>
     // host path regular expression
     var pathRegex = new RegExp(/\/[^\/]+$/);
@@ -30,19 +30,23 @@
         }]
     };
     </script>
-    
-    
-    
-    
-    
+
+
+
+
+
     <script src="js/lib/jquery-1.9.1.min.js"></script>
     <script src="js/lib/underscore-min.js"></script>
     <script src="js/lib/backbone-min.js"></script>
-    
-    
-    
+
+
+
     <script src="http://servicesbeta.esri.com/jsapi/arcgis/3.4/"></script>
     <script src="js/app/np_app.js"></script>
+
+
+
+
 
   </head>
   <body class="tundra">
@@ -60,25 +64,29 @@
           Explore National Park Service assets in California via Flickr
         </div>
 
-        
-        
-        
+
+
+
         <div id="photo-list"></div>
         <div id="load-more"></div>
-        
-        
-        
-        
+
+
+
+
         <div class="info" id="app-info-container">
           <div id="app-info">
 
-          
-          
+
+
+
+
             <div id="photo-list-info"></div>
-            
-            
-            
-            
+
+
+
+
+
+
             <br>
             This app uses the Flickr API to find photos. Photo searches are limited to 30 results to comply with <a href="http://www.flickr.com/services/api/tos/">Flickr's terms of service</a>.
             <br><br>
@@ -101,19 +109,21 @@
           </div>
         </div>
       </div>
+
       <div id="legend"></div>
+
       <div id="map"
            data-dojo-type="dijit/layout/ContentPane"
            data-dojo-props="region:'center'">
 
-           
-           
-           
+
+
+
         <div id="basemaps-container" class="shadow round over-map"></div>
 
-        
-        
-        
+
+
+
         <div id="ds"> <!-- drop shadow divs -->
           <div id="ds-r">
             <div class="ds v1 o1"></div>
