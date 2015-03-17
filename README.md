@@ -10,6 +10,10 @@ An example app written in different frameworks using the ArcGIS API for JavaScri
 ## Instructions
 See the powerpoint in the root directory for more information. These demos were presented at the 2013 Developer Summit in Palm Springs CA.
 
+### IIS
+
+By Default, some versions of IIS may not include json as a mime type. Be sure to [Add a mime type](https://technet.microsoft.com/en-us/library/cc725608%28v=ws.10%29.aspx) for JSON support.
+
  [New to Github? Get started here.](https://github.com/)
 
 ## Requirements
