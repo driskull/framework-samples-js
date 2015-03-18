@@ -36,6 +36,10 @@ Find a bug or want to request a new feature?  Please let us know by submitting a
 
 Anyone and everyone is welcome to contribute.
 
+## Knockout.js Licensing
+
+MIT license - [http://www.opensource.org/licenses/mit-license.php](http://www.opensource.org/licenses/mit-license.php)
+
 ## Licensing
 Copyright 2012 Esri
 
@@ -51,7 +55,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-A copy of the license is available in the repository's [license.txt](https://raw.github.com/Esri/geocoder-search-widget-js/master/license.txt) file.
+A copy of the license is available in the repository's [license.txt](https://raw.github.com/Esri/framework-samples-js/master/license.txt) file.
 
 [](Esri Tags: ArcGIS JavaScript API MVC Frameworks Backbone.js Backbone Knockout.js Knockout Angular.js Angular framework Public)
 [](Esri Language: JavaScript)
